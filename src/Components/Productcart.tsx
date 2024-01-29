@@ -22,7 +22,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
     <Card border={"1px solid #a8b5c8"} bg={"none"}>
       <CardBody>
         <Image
-          src={`${import.meta.env.VITE_SERVER_URL}${url}`}
+          src={`http://localhost:1337${url}`}
           alt="Green double couch with wooden legs"
           borderRadius="50%"
           boxSize="200px"
