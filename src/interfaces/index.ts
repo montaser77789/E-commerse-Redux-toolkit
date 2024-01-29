@@ -6,9 +6,15 @@ export interface Iproduct{
     description: string;
     price: number;
     stock: number;
-
+    thumbnail:{
+        data:{
+            id: number,
+            attributes:{
+                url:string
+            }
+        }
     }
-
+    }
 }
 export interface Iattributes{
     id: number;
@@ -16,7 +22,16 @@ export interface Iattributes{
     description: string;
     price: number;
     stock: number;
+    thumbnail:{
+        data:{
+            id: number,
+            attributes:{
+                url:string
+            }
+        }
+    }
 }
+
 
 
 
