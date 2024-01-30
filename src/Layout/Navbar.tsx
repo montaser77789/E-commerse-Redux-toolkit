@@ -22,7 +22,10 @@ import React from 'react'
 import { FaRegMoon } from 'react-icons/fa'
 import { IoSunnyOutline } from 'react-icons/io5'
 import { Link as RouterLink } from "react-router-dom";
-const Links = ['Products', 'login', 'Team']
+import CookiesServices from '../Services/CookiesServices'
+const Links = ['Products', 'Team']
+
+
 
 
 interface Props {
@@ -54,6 +57,12 @@ const NavLink = (props: Props) => {
 
 export default function Navbar() {
   const { colorMode, toggleColorMode } = useColorMode()
+  const token = CookiesServices.get("jwt")
+const onLogout = ()=>{
+  CookiesServices.remove("jwt");
+  window.location.reload()
+}
+
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
@@ -75,15 +84,8 @@ export default function Navbar() {
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ?<FaRegMoon />: <IoSunnyOutline />}
               </Button>
-              <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              <RouterLink to="/login">Login</RouterLink>
 
-              </HStack>
-
-
-
-
-              <Menu>
+              {token? <Menu>
                 <MenuButton
                   as={Button}
                   rounded={'full'}
@@ -111,9 +113,17 @@ export default function Navbar() {
                   <MenuDivider />
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
-                  <MenuItem>Logout</MenuItem>
+                  <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>
-              </Menu>
+              </Menu>: <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
+              <RouterLink to="/login">Login</RouterLink>
+              </HStack>}
+              
+
+
+
+
+             
             </Stack>
           </Flex>
         </Flex>
