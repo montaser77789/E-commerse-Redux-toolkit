@@ -14,22 +14,27 @@ import {
   InputGroup,
   InputRightElement,
   FormHelperText,
+  
 } from '@chakra-ui/react'
 import React, {  useState } from 'react'
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
+import { useDispatch, useSelector } from 'react-redux';
+import { Iuser, userLogin } from '../app/Slices/features/Login';
+import { AppDispatch, RootState } from '../app/store';
+
 
 export default function Login() {
   const [isEmail, setisEmail] = useState(false);
   const [isPassword, setisPassword] = useState(false);
-
+  const dispatch: AppDispatch = useDispatch();
+  const {loading} = useSelector((state:RootState)=>state.login)
 
     const [showPassword, setShowPassword] = useState(false);
-    const [user,setUser]=useState({
-        email:"",
+    const [user,setUser]=useState<Iuser>({
+        identifier:"",
         password:""
     })
-    console.log(user);
     const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
         const {value,name} = e.target;
         setUser({...user,[name]:value})
@@ -38,15 +43,24 @@ export default function Login() {
     const onSubmitHandler = (e: React.FormEvent<HTMLDivElement>) => {
       e.preventDefault();
       console.log("Done");
-      if(!isEmail){
+      if(!user.identifier && !user.password ){
+        setisEmail(true)
+        setisPassword(true)
+        return;
+      } 
+      
+      if(!user.identifier  ){
         setisEmail(true)
         return;
-      } if(!isPassword){
+      }
+      if(!user.password  ){
         setisPassword(true)
         return;
       }
       setisEmail(false)
       setisPassword(false)
+      dispatch(userLogin(user))
+
 
 
     };
@@ -76,9 +90,9 @@ export default function Login() {
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
               <Input type="email"
-              name='email'
+              name='identifier'
               onChange={onChangeHandler}
-              value={user.email}
+              value={user.identifier}
               isInvalid={isEmail}
               errorBorderColor='crimson'
                />
@@ -119,7 +133,8 @@ export default function Login() {
                 _hover={{
                   bg : isEmail || isPassword ? 'red.500'  :  'blue.500'
                 }}
-                type='submit'>
+                type='submit'
+                isLoading={loading}>
                 Sign in
               </Button>
             </Stack>
