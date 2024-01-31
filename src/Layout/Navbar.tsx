@@ -68,7 +68,7 @@ const onLogout = ()=>{
   window.location.reload()
 }
 const { isOpen, onOpen, onClose } = useDisclosure()
-const product = useSelector((state:RootState)=>state.cart.cartProducts);
+const {cartProducts} = useSelector((state:RootState)=>state.cart);
 const dispatch = useAppDispatch()
 const openDrawer =()=>{
   dispatch(onOpenCartDrawer())
@@ -100,7 +100,7 @@ const openDrawer =()=>{
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
             {token ?  <Button onClick={openDrawer}>
-         cart({product.length})
+         cart({cartProducts.length})
         </Button>:null}  
               <Button onClick={toggleColorMode}>
                 {colorMode === 'light' ? <FaRegMoon />: <IoSunnyOutline />}

@@ -1,23 +1,22 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { Iattributes } from '../../../interfaces'
+import { Iproduct } from '../../../interfaces'
+import { addItemsToShopppingCard } from '../../../Utils/Function'
 
-export interface Ipropse {
- cartProducts:Iattributes[],
+
+interface Ipropse {
+    cartProducts: Iproduct[];
 }
-
 const initialState: Ipropse = {
-    cartProducts:[],
-
+    cartProducts:[]
 }
 
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart:(state,action:PayloadAction<Iattributes>)=>{
-        state.cartProducts = [...state.cartProducts, action.payload];
+    addToCart:(state,action:PayloadAction<Iproduct>)=>{
+      state.cartProducts= addItemsToShopppingCard(state.cartProducts,action.payload) 
     }
-   
   },
 })
 

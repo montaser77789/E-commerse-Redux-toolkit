@@ -87,16 +87,13 @@ import {
 import { useAppDispatch } from "../app/store";
 
 import React from 'react';
-import { Iattributes } from '../interfaces';
+import {  Iproduct } from '../interfaces';
 import { addToCart } from "../app/Slices/features/CartSlice";
 import { motion } from 'framer-motion';
 
 
 interface ProductCardProps {
-  product: {
-    attributes: Iattributes;
-    
-  };
+  product:Iproduct
 }
 
 
@@ -172,7 +169,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
           <Button
             colorScheme="cyan"
             size="md"
-            onClick={() => dispatch(addToCart(product.attributes))}
+            onClick={() => dispatch(addToCart(product))}
           >
             Add to Cart
           </Button>

@@ -3,12 +3,14 @@ import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFoo
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../app/store';
 import { onCloseDrawer } from '../app/Slices/features/glopalSlice';
+import CardInDrawer from './Caetdrawer';
 
 function DrawerExample() {
   const btnRef = React.useRef<HTMLButtonElement | null>(null);
   const dispatch = useAppDispatch()
 
   const { isOpenCartDrawer } = useSelector((state: RootState) => state.drawer);
+  const { cartProducts } = useSelector((state: RootState) => state.cart);
 
   const onClose = () => {
     dispatch(onCloseDrawer())
@@ -28,6 +30,11 @@ function DrawerExample() {
           <DrawerHeader>your shooping cart </DrawerHeader>
           <DrawerBody>
             <Input placeholder='Type here...' />
+            {cartProducts.map(product=>(
+                          <CardInDrawer key={product.id}{...product}/>
+
+            ))}
+          
           </DrawerBody>
           <DrawerFooter>
             <Button  colorScheme='red'>Clear All</Button>
