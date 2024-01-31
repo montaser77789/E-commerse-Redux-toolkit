@@ -15,6 +15,8 @@ import {
   useColorMode,
   Center,
   HStack,
+  IconButton,
+  useDisclosure,
   
 } from '@chakra-ui/react'
 
@@ -23,6 +25,12 @@ import { FaRegMoon } from 'react-icons/fa'
 import { IoSunnyOutline } from 'react-icons/io5'
 import { Link as RouterLink } from "react-router-dom";
 import CookiesServices from '../Services/CookiesServices'
+import { IoCloseSharp } from "react-icons/io5";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { useSelector } from 'react-redux'
+import { RootState, useAppDispatch } from '../app/store'
+import DrawerExample from '../Components/Drawer'
+import { onOpenCartDrawer } from '../app/Slices/features/glopalSlice'
 const Links = ['Products', 'Team']
 
 
@@ -32,11 +40,8 @@ interface Props {
   children: React.ReactNode
   to: string;
 }
-
-
 const NavLink = (props: Props) => {
   const { to,children } = props
-
   return (
     <Box
       as={RouterLink}
@@ -62,11 +67,25 @@ const onLogout = ()=>{
   CookiesServices.remove("jwt");
   window.location.reload()
 }
+const { isOpen, onOpen, onClose } = useDisclosure()
+const product = useSelector((state:RootState)=>state.cart.cartProducts);
+const dispatch = useAppDispatch()
+const openDrawer =()=>{
+  dispatch(onOpenCartDrawer())
+}
 
   return (
+
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <IconButton
+            size={'md'}
+            icon={isOpen ? <IoCloseSharp />: <GiHamburgerMenu size={"30px"} />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
         <HStack spacing={8} alignItems={'center'}>
         <RouterLink to="/">My App</RouterLink>
 
@@ -78,13 +97,14 @@ const onLogout = ()=>{
               ))}
             </HStack>
           </HStack>
-
           <Flex alignItems={'center'}>
             <Stack direction={'row'} spacing={7}>
+            {token ?  <Button onClick={openDrawer}>
+         cart({product.length})
+        </Button>:null}  
               <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ?<FaRegMoon />: <IoSunnyOutline />}
+                {colorMode === 'light' ? <FaRegMoon />: <IoSunnyOutline />}
               </Button>
-
               {token? <Menu>
                 <MenuButton
                   as={Button}
@@ -110,24 +130,35 @@ const onLogout = ()=>{
                     <p>Username</p>
                   </Center>
                   <br />
-                  <MenuDivider />
+                  <MenuDivider/>
                   <MenuItem>Your Servers</MenuItem>
                   <MenuItem>Account Settings</MenuItem>
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>
-              </Menu>: <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
-              <RouterLink to="/login">Login</RouterLink>
-              </HStack>}
-              
-
-
-
-
-             
+              </Menu> :   
+              <Button  as={RouterLink} to="/login">Login</Button>
+              }
             </Stack>
+            <DrawerExample/>
           </Flex>
         </Flex>
+{isOpen ? (
+  <Box pb={4} display={{ md: 'none' }}>
+    <Stack as={'nav'} spacing={4}>
+      {Links.map((link) => (
+        <NavLink key={link} to={`/${link.toLowerCase()}`}>
+        {link}
+      </NavLink>
+      ))}
+    </Stack>
+
+  </Box>
+) : null}
+
+
       </Box>
     </>
   )
 }
+
+

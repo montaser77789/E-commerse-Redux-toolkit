@@ -7,7 +7,7 @@ import Skeleton from "../Components/Skeleton";
 function Products() {
   const { data, isLoading } = UseAuthenticatedQuery({
     queryKey: ["products"],
-    url: "/products?populate=thumbnail,catagory",
+    url: "/products?populate=thumbnail,catagory,createdAt",
   });
 
   if (isLoading) {
