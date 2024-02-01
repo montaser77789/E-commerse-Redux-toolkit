@@ -1,79 +1,3 @@
-// import React from "react";
-// import { Button, Card, CardBody, Heading, Image, Stack, Text } from "@chakra-ui/react";
-// import { Link } from "react-router-dom";
-// import { Iattributes } from "../interfaces";
-// import { addToCart } from "../app/Slices/features/CartSlice";
-// import { useAppDispatch } from "../app/store";
-
-
-// interface ProductCardProps {
-//   product: {
-//     attributes: Iattributes;
-    
-//   };
-// }
-
-
-// const Productcart: React.FC<ProductCardProps> = ({ product }) => {
-//   const { title, description, price } = product.attributes;
-//   const {url} = product.attributes.thumbnail.data.attributes;
-//   const dispatch = useAppDispatch()
-  
-
-  
-//   return (
-//     <Card border={"1px solid #a8b5c8"} bg={"none"}>
-//       <CardBody>
-//         <Image
-//           src={`http://localhost:1337${url}`}
-//           alt="Green double couch with wooden legs"
-//           borderRadius="50%"
-//           boxSize="200px"
-//           margin="auto"
-//         />
-//         <Stack mt="6" spacing="3">
-//           <Heading textAlign="center" p="2" size="md">
-//             {title}
-//           </Heading>
-//           <Text textAlign="center" fontSize="sm">
-//             {description}
-//           </Text>
-//           <Text color="blue.600" fontSize="2xl" textAlign="center">
-//             {price}
-//           </Text>
-//         </Stack>
-//         <Button
-//           colorScheme="cyan"
-//           size="xl"
-//           py="5"
-//           overflow="hidden"
-//           w="full"
-//           mt={6}
-//           onClick={()=>dispatch(addToCart( product.attributes)) }
-//         >
-//          Add to card
-//         </Button>
-//         <Button
-//           as={Link}
-//           to={"/products/1"}
-//           colorScheme="cyan"
-//           size="xl"
-//           py="5"
-//           overflow="hidden"
-//           w="full"
-//           mt={6}
-//         >
-//           View Details
-//         </Button>
-//       </CardBody>
-//     </Card>
-//   );
-// };
-
-// export default Productcart;
-
-
-
 
 import { Link } from 'react-router-dom';
 import {
@@ -84,12 +8,13 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { useAppDispatch } from "../app/store";
+import { RootState, useAppDispatch } from "../app/store";
 
 import React from 'react';
 import {  Iproduct } from '../interfaces';
 import { addToCart } from "../app/Slices/features/CartSlice";
 import { motion } from 'framer-motion';
+import { useSelector } from 'react-redux';
 
 
 interface ProductCardProps {
@@ -101,6 +26,11 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
   const { title, description, price,id } = product.attributes;
   const {url} = product.attributes.thumbnail.data.attributes;
   const dispatch = useAppDispatch()
+  const {cartProducts} = useSelector((state:RootState)=>state.cart)
+  console.log(cartProducts);
+  const addCart =()=>{
+    dispatch(addToCart(product))
+  }
   return (
     <Box
       maxW="sm"
@@ -119,7 +49,6 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
         height="200px"
         
       />
-
       <Box p="4">
         <Badge borderRadius="full" px="2" colorScheme="teal">
           New
@@ -132,7 +61,6 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
         <Text color="gray.600" fontSize="sm" mt="1">
           {description}
         </Text>
-
         <Text color="blue.700" fontSize="lg" fontWeight="bold" mt="2">
           {price}
         </Text>
@@ -153,7 +81,6 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
             justifyContent: "center",
             borderRadius: "md",
           }}
-
         >
           <Button
             as={Link}
@@ -164,12 +91,11 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
             View Details
           </Button>
         </motion.div>
-
         <Flex justify="center" mt="4">
           <Button
             colorScheme="cyan"
             size="md"
-            onClick={() => dispatch(addToCart(product))}
+            onClick={() =>addCart()}
           >
             Add to Cart
           </Button>
