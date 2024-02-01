@@ -15,6 +15,15 @@ export interface Iproduct{
                     url:string
                 }
             }
+        },
+        catagory:{
+            data:{
+                id: number,
+                attributes:{
+                    title:string
+                }
+            }
+
         }
     }
 }

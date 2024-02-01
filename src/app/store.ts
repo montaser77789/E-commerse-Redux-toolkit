@@ -5,6 +5,7 @@ import CartSlice from './Slices/features/CartSlice'
 import glopalSlice from './Slices/features/glopalSlice'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web
+import { ProductApiSlice } from './Slices/features/Services/ProductApiSlice'
  
  
 const persistConfig = {
@@ -19,9 +20,12 @@ const store = configureStore({
   reducer: {
     cart:persistedCart,
     login:Login,
-    drawer:glopalSlice
-
-  },
+    drawer:glopalSlice,
+    [ProductApiSlice.reducerPath]: ProductApiSlice.reducer
+  } , middleware  : getDefaultMiddleware => getDefaultMiddleware({
+    serializableCheck:false,
+  }).concat([ProductApiSlice.middleware])
+  
 })
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
