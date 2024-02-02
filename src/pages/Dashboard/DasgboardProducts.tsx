@@ -1,4 +1,4 @@
-import { Button, Image, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Button, Image, Table, TableCaption, TableContainer, Tbody, Td, Th, Thead, Tr, useDisclosure } from "@chakra-ui/react";
 import { useGetProductsQuery } from "../../app/Slices/features/Services/ProductApiSlice";
 import { Iproduct } from "../../interfaces";
 import TableSkeleton from "../../Components/TableSkeleton";
@@ -6,11 +6,14 @@ import { AiOutlineEye } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import AlertDialog from "../../Components/AlertDialog";
 
 
 
 function DashboardProducts() {
     const {data,isLoading }=useGetProductsQuery({})
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
     
     if(isLoading) return <TableSkeleton/>
 
@@ -62,7 +65,7 @@ function DashboardProducts() {
          onClick={()=>{}}>
         <AiOutlineEye size={17}/>
         </Button>
-        <Button mr={2} colorScheme="red" variant={"solid"} onClick={()=>{}}>
+        <Button  mr={2} colorScheme="red" variant={"solid"} onClick={onOpen}>
         <BsTrash size={17}/>
         </Button>
         <Button colorScheme="blue" variant={"solid"} onClick={()=>{}}>
@@ -74,6 +77,7 @@ function DashboardProducts() {
   </Tbody>
 </Table>
 </TableContainer>
+<AlertDialog title="Are you sure?" description="Do you really want to destory this product? this product cannot undone " noCancle="Cancle" okDelete="Destory" isOpen={isOpen} onClose={onClose} onOpen={onOpen} />
 
 
     </>  );
