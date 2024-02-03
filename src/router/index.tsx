@@ -7,6 +7,7 @@ import CookiesServices from "../Services/CookiesServices";
 import ProtectedRoute from "../auth/ProtectRouter";
 import DashboardLayout from "../Layout/DashboardLayout";
 import DashboardProducts from "../pages/Dashboard/DasgboardProducts";
+import Register from "../pages/Register";
 
 const token = CookiesServices.get("jwt")
 
@@ -18,6 +19,9 @@ const router = createBrowserRouter(
             <Route path="products" element={<Products/>}/>
             <Route  path="login" element={<ProtectedRoute isAllowed={!token} redirectPath="/">
         <Login/>
+        </ProtectedRoute>}/>
+        <Route  path="register" element={<ProtectedRoute isAllowed={!token} redirectPath="/register">
+        <Register/>
         </ProtectedRoute>}/>
         </Route>
         <Route path="/dashboard" element={<DashboardLayout/>}>

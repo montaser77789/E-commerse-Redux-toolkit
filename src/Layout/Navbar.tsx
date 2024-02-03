@@ -136,7 +136,10 @@ const openDrawer =()=>{
                   <MenuItem onClick={onLogout}>Logout</MenuItem>
                 </MenuList>
               </Menu> :   
-              <Button  as={RouterLink} to="/login">Login</Button>
+              <Flex>
+                <Button mr={2}  as={RouterLink} to="/login">Login</Button>
+              <Button  as={RouterLink} to="/register">Register</Button>
+              </Flex>
               }
             </Stack>
             <DrawerExample/>

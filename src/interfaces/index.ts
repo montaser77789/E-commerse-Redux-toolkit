@@ -45,6 +45,11 @@ export interface Iattributes{
         },
     
     }
+    export interface IuserRegister{
+        username:string,
+        email:string,
+        password:string,
+    }
 
 
 
