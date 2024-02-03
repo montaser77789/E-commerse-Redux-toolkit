@@ -17,17 +17,16 @@ interface Ipropse {
     description:string
     noCancle:string
     okDelete:string
- 
-
+    Desert:()=>void
+    isLoading:boolean
   }
 
 
-function AlertDialog({isOpen,onClose,title,description,noCancle,okDelete }:Ipropse) {
+function AlertDialog({isOpen,onClose,title,description,noCancle,okDelete,Desert,isLoading }:Ipropse) {
     const cancelRef: RefObject<HTMLButtonElement> = React.useRef(null);
   
     return (
       <>
-
         <ChakraAlertDialog
           motionPreset='slideInBottom'
           leastDestructiveRef={cancelRef}
@@ -47,7 +46,7 @@ function AlertDialog({isOpen,onClose,title,description,noCancle,okDelete }:Iprop
               <Button ref={cancelRef} onClick={onClose}>
                {noCancle}
               </Button>
-              <Button variant={"outline"} colorScheme='red' ml={3}>
+              <Button onClick={Desert} isLoading={isLoading} variant={"outline"} colorScheme='red' ml={3}>
                 {okDelete}
               </Button>
             </AlertDialogFooter>

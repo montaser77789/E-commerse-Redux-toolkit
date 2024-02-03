@@ -28,21 +28,24 @@ export interface Iproduct{
     }
 }
 export interface Iattributes{
-    id: number;
-    qty:number;
-    title: string;
-    description: string;
-    price: number;
-    stock: number;
-    thumbnail:{
-        data:{
-            id: number,
-            attributes:{
-                url:string
+    
+        id: number;
+        qty:number;
+        title: string;
+        description: string;
+        price: number;
+        stock: number;
+        thumbnail:{
+            data:{
+                id: number,
+                attributes:{
+                    url: string 
+                }
             }
-        }
+        },
+    
     }
-}
+
 
 
 
