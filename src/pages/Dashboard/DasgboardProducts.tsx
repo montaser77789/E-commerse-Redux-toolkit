@@ -1,5 +1,6 @@
 import {
   Button,
+  Flex,
   FormControl,
   FormLabel,
   Image,
@@ -21,6 +22,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
+  useCreateDashboardProductsMutation,
   useDeleteDashboardProductsMutation,
   useGetProductsQuery,
   useUpdateDashboardProductsMutation,
@@ -40,6 +42,8 @@ interface Ithumbnail {
 function DashboardProducts() {
   const [clickedProducId, setclickedProducId] = useState<number>(0);
   const [thumbnail, setThumbnail] = useState<File | undefined>();
+  const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
+
   const [clickedProducToEdit, setclickedProducToEdit] = useState<Iattributes>({
     id: 1,
     qty: 1,
@@ -56,10 +60,30 @@ function DashboardProducts() {
       },
     },
   });
+  const [clickedProducToCreate, setclickedProducToCreate] =
+    useState<Iattributes>({
+      id: 1,
+      qty: 1,
+      title: "",
+      description: "",
+      price: 1,
+      stock: 1,
+      thumbnail: {
+        data: {
+          id: 1,
+          attributes: {
+            url: "" as Ithumbnail["url"],
+          },
+        },
+      },
+    });
+
   const [Destoryproducts, { isLoading: isDestory, isSuccess }] =
     useDeleteDashboardProductsMutation();
   const [updateproducts, { isLoading: isUpdate, isSuccess: isSuccessupdate }] =
     useUpdateDashboardProductsMutation();
+  const [createproducts, { isLoading: isLoadingCreate,isSuccess: isSuccessCreate }] =
+    useCreateDashboardProductsMutation();
 
   const onChangeHandler = (
     e:
@@ -69,6 +93,14 @@ function DashboardProducts() {
     const { value, name } = e.target;
     setclickedProducToEdit({ ...clickedProducToEdit, [name]: value });
   };
+  const onChangeHandlerCreate = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { value, name } = e.target;
+    setclickedProducToCreate({ ...clickedProducToCreate, [name]: value });
+  };
 
   const onChaneHandlerPrice = (value: string) => {
     setclickedProducToEdit({ ...clickedProducToEdit, price: +value });
@@ -76,6 +108,14 @@ function DashboardProducts() {
   const onChaneHandlerStock = (value: string) => {
     setclickedProducToEdit({ ...clickedProducToEdit, stock: +value });
   };
+
+  const onChaneHandlerPriceCreate = (value: string) => {
+    setclickedProducToCreate({ ...clickedProducToCreate, price: +value });
+  };
+  const onChaneHandlerStockCreate = (value: string) => {
+    setclickedProducToCreate({ ...clickedProducToCreate, stock: +value });
+  };
+
   const onSubmitHandler = () => {
     console.log(clickedProducToEdit);
     console.log(thumbnail);
@@ -95,11 +135,42 @@ function DashboardProducts() {
     updateproducts({ id: clickedProducId, body: formData });
     console.log(formData);
   };
+
+  const onSubmitHandlerCreate = () => {
+    console.log(clickedProducToCreate);
+    console.log(thumbnailCreate);
+    const formData = new FormData();
+    formData.append(
+      "data",
+      JSON.stringify({
+        title: clickedProducToCreate.title,
+        description: clickedProducToCreate.description,
+        price: clickedProducToCreate.price,
+        stock: clickedProducToCreate.stock,
+      })
+    );
+    if (thumbnailCreate) {
+      formData.append("files.thumbnail", thumbnailCreate);
+    }
+    createproducts({ body: formData });
+    console.log("Create");
+
+  };
+
   const onChaneThumbnailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
     if (files?.length) {
       setThumbnail(files[0]);
+    }
+  };
+  const onChaneThumbnailHandlerCreate = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const files = e.target.files;
+
+    if (files?.length) {
+      setThumbnailCreate(files[0]);
     }
   };
 
@@ -109,6 +180,11 @@ function DashboardProducts() {
     isOpen: isOpenModel,
     onOpen: onOpenModel,
     onClose: onCloseModel,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenModelCreate,
+    onOpen: onOpenModelCreate,
+    onClose: onCloseModelCreate,
   } = useDisclosure();
 
   useEffect(() => {
@@ -120,86 +196,121 @@ function DashboardProducts() {
       setclickedProducId(0);
       onCloseModel();
     }
-  }, [isSuccess, onClose, Destoryproducts, onCloseModel, isSuccessupdate]);
+    if (isSuccessCreate) {
+      setclickedProducToCreate({
+        id: 1,
+        qty: 1,
+        title: "",
+        description: "",
+        price: 1,
+        stock: 1,
+        thumbnail: {
+          data: {
+            id: 1,
+            attributes: {
+              url: "" as Ithumbnail["url"],
+            },
+          },
+        },
+      })
+      
+      onCloseModelCreate();
+    }
+  }, [isSuccess, onClose, onCloseModel, isSuccessupdate,onCloseModelCreate,isSuccessCreate]);
   if (isLoading) return <TableSkeleton />;
   return (
     <>
-      <TableContainer>
-        <Table variant="striped" colorScheme="purple">
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>id</Th>
-              <Th>title</Th>
-              <Th>Catagory</Th>
-              <Th>descriptin</Th>
-              <Th>thumbnail</Th>
-              <Th>Price</Th>
-              <Th>Stock</Th>
-              <Th>Action</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {data?.data?.map((product: Iproduct) => (
+      <Flex flexDirection={"column"}>
+        <Button
+          ml={"auto"}
+          w={"fit-content"}
+          colorScheme="blue"
+          onClick={() => {
+            onOpenModelCreate();
+          }}
+          isLoading={isLoadingCreate}
+        >
+          CreateProduct
+        </Button>
+        <TableContainer>
+          <Table variant="striped" colorScheme="purple">
+            <TableCaption>Imperial to metric conversion factors</TableCaption>
+            <Thead>
               <Tr>
-                <Td>{product.id}</Td>
-                <Td>{product.attributes.title}</Td>
-                <Td>{product.attributes.catagory.data.attributes.title}</Td>
-                <Td>{product.attributes.description.slice(0, 20)}</Td>
-                <Td>
-                  {" "}
-                  <Image
-                    src={`http://localhost:1337${product.attributes.thumbnail.data.attributes.url}`}
-                    alt={"alt"}
-                    objectFit="cover"
-                    height="50px"
-                    width={"50px"}
-                    rounded={"full"}
-                    m={"10px 0"}
-                    mr={"3"}
-                  />
-                </Td>
-                <Td>{product.attributes.price}</Td>
-                <Td>{product.attributes.stock}</Td>
-                <Td>
-                  <Button
-                    as={Link}
-                    to={`/products${product.id}`}
-                    mr={2}
-                    colorScheme="purple"
-                    variant={"solid"}
-                    onClick={() => {}}
-                  >
-                    <AiOutlineEye size={17} />
-                  </Button>
-                  <Button
-                    mr={2}
-                    colorScheme="red"
-                    variant={"solid"}
-                    onClick={() => {
-                      setclickedProducId(product.id);
-                      onOpen();
-                    }}
-                  >
-                    <BsTrash size={17} />
-                  </Button>
-                  <Button
-                    colorScheme="blue"
-                    variant={"solid"}
-                    onClick={() => {
-                      onOpenModel();
-                      setclickedProducToEdit(product.attributes);
-                      setclickedProducId(product.id);
-                    }}
-                  >
-                    <CiEdit size={17} />
-                  </Button>
-                </Td>
+                <Th>id</Th>
+                <Th>title</Th>
+                <Th>Catagory</Th>
+                <Th>descriptin</Th>
+                <Th>thumbnail</Th>
+                <Th>Price</Th>
+                <Th>Stock</Th>
+                <Th>Action</Th>
               </Tr>
-            ))}
-          </Tbody>
-        </Table>
-      </TableContainer>
+            </Thead>
+            <Tbody>
+              { data?.data?.map((product: Iproduct) => (
+              
+                <Tr>
+                  <Td>{product.id}</Td>
+                  <Td>{product.attributes.title}</Td>
+                  <Td>{product.attributes.catagory.data?.attributes.title}</Td>
+                  <Td>{product.attributes.description.slice(0, 20)}</Td>
+                  <Td>
+                    {" "}
+                    <Image
+                      src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
+                      alt={"alt"}
+                      objectFit="cover"
+                      height="50px"
+                      width={"50px"}
+                      rounded={"full"}
+                      m={"10px 0"}
+                      mr={"3"}
+                    />
+                  </Td>
+                  <Td>{product.attributes.price}</Td>
+                  <Td>{product.attributes.stock}</Td>
+                  <Td>
+                    <Button
+                      as={Link}
+                      to={`/products${product.id}`}
+                      mr={2}
+                      colorScheme="purple"
+                      variant={"solid"}
+                      onClick={() => {}}
+                    >
+                      <AiOutlineEye size={17} />
+                    </Button>
+                    <Button
+                      mr={2}
+                      colorScheme="red"
+                      variant={"solid"}
+                      onClick={() => {
+                        setclickedProducId(product.id);
+                        onOpen();
+                      }}
+                    >
+                      <BsTrash size={17} />
+                    </Button>
+                    <Button
+                      colorScheme="blue"
+                      variant={"solid"}
+                      onClick={() => {
+                        onOpenModel();
+                        setclickedProducToEdit(product.attributes);
+                        setclickedProducId(product.id);
+                      }}
+                    >
+                      <CiEdit size={17} />
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Flex>
+
       <AlertDialog
         isLoading={isDestory}
         Desert={() => Destoryproducts(clickedProducId)}
@@ -211,6 +322,7 @@ function DashboardProducts() {
         onClose={onClose}
         onOpen={onOpen}
       />
+      {/* Update       */}
       <CustomModel
         isOpen={isOpenModel}
         onClose={onCloseModel}
@@ -273,6 +385,81 @@ function DashboardProducts() {
             name="stock"
             onChange={onChaneHandlerStock}
             defaultValue={clickedProducToEdit.stock}
+            max={30}
+            clampValueOnBlur={false}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+      </CustomModel>
+
+      {/* Create */}
+      <CustomModel
+        isOpen={isOpenModelCreate}
+        onClose={onCloseModelCreate}
+        closeTxt="Cancle"
+        openTxt="Create"
+        title="Create product"
+        onOpen={onOpenModel}
+        onSubmitHandler={onSubmitHandlerCreate}
+        isupdate={isLoadingCreate}
+      >
+        <FormControl mt={2}>
+          <FormLabel>Title</FormLabel>
+          <Input
+            placeholder="Title"
+            onChange={onChangeHandlerCreate}
+            value={clickedProducToCreate.title}
+            name="title"
+          />
+        </FormControl>
+
+        <FormControl mt={2}>
+          <FormLabel>Description</FormLabel>
+          <Textarea
+            placeholder="Description"
+            onChange={onChangeHandlerCreate}
+            value={clickedProducToCreate.description}
+            name="description"
+          />
+        </FormControl>
+        <FormControl mt={2}>
+          <FormLabel>THUMBNAIL</FormLabel>
+          <Input
+            type="file"
+            h={"full"}
+            p={2}
+            accept="image/png ,image/gif,image/jpeng"
+            placeholder="Last name"
+            onChange={onChaneThumbnailHandlerCreate}
+          />
+        </FormControl>
+        <FormControl mt={2}>
+          <FormLabel>Peice</FormLabel>
+          <NumberInput
+            name="price"
+            onChange={onChaneHandlerPriceCreate}
+            defaultValue={clickedProducToCreate.price}
+            max={30}
+            clampValueOnBlur={false}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
+        </FormControl>
+        <FormControl mt={2}>
+          <FormLabel>Stock</FormLabel>
+          <NumberInput
+            name="stock"
+            onChange={onChaneHandlerStockCreate}
+            defaultValue={clickedProducToCreate.stock}
             max={30}
             clampValueOnBlur={false}
           >

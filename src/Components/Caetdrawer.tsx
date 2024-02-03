@@ -10,13 +10,12 @@ function CardInDrawer(product :Iproduct) {
   const dispatch = useAppDispatch()
   const {qty} =product
      const {title, price} =product.attributes
-     const { url} =product.attributes.thumbnail.data.attributes
      
     return (
      <>
      <Flex px={"2"} mb={"2"} alignItems={"center"} >
      <Image
-        src={`http://localhost:1337${url}`}
+        src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
         alt={"alt"}
         objectFit="cover"
         height="80px"

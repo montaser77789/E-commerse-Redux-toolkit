@@ -62,6 +62,18 @@ export const ProductApiSlice = createApi({
       },
       invalidatesTags: [{ type: "products", id: "LIST" }],
     }),
+    createDashboardProducts: builder.mutation({
+      query: ({  body }) => ({
+        url: `/products`,
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${CookiesServices.get("jwt")}`,
+        },
+      body
+      }),
+    
+      invalidatesTags: [{ type: "products", id: "LIST" }],
+    }),
   }),
 });
 
@@ -69,4 +81,5 @@ export const {
   useGetProductsQuery,
   useDeleteDashboardProductsMutation,
   useUpdateDashboardProductsMutation,
+  useCreateDashboardProductsMutation
 } = ProductApiSlice;

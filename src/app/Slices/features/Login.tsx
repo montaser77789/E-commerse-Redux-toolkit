@@ -55,6 +55,8 @@ const loginSlice = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
+        console.log(action.payload);
+        
         state.error = "";
         const IN_DAYS =3
         const EXPIRE_IN_DAYS = 1000*60*60*24*IN_DAYS
@@ -84,20 +86,7 @@ const loginSlice = createSlice({
       });
   },
 
-  // extraReducers:{
-  //     [`${userLogin.pending}`]:(state) => {
-  //         state.loading = true
-  //     },
-  //     [`${userLogin.fulfilled}`]:(state,action)=>{
-  //         state.loading = true,
-  //         state.data = action.payload
-  //         state.error = null
-  //     }, [`${userLogin.rejected}`]:(state,action)=>{
-  //         state.loading = true,
-  //         state.data = []
-  //         state.error = action.payload
-  //     }
-  // }
+
 });
 
 export default loginSlice.reducer;

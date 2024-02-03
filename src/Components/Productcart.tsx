@@ -8,13 +8,12 @@ import {
   Button,
   Flex,
 } from "@chakra-ui/react";
-import { RootState, useAppDispatch } from "../app/store";
+import {useAppDispatch } from "../app/store";
 
 import React from 'react';
 import {  Iproduct } from '../interfaces';
 import { addToCart } from "../app/Slices/features/CartSlice";
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
 
 
 interface ProductCardProps {
@@ -24,10 +23,9 @@ interface ProductCardProps {
 
 const Productcart: React.FC<ProductCardProps> = ({ product }) => {
   const { title, description, price,id } = product.attributes;
-  const {url} = product.attributes.thumbnail.data.attributes;
+  
   const dispatch = useAppDispatch()
-  const {cartProducts} = useSelector((state:RootState)=>state.cart)
-  console.log(cartProducts);
+ 
   const addCart =()=>{
     dispatch(addToCart(product))
   }
@@ -43,7 +41,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
       _hover={{ transform: "scale(1.05)" }}
     >
       <Image
-        src={`http://localhost:1337${url}`}
+        src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
         alt={title}
         objectFit="cover"
         height="200px"
