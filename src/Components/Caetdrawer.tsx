@@ -25,7 +25,7 @@ function CardInDrawer(product :Iproduct) {
         mr={"3"}
       />
       <Stack>
-      <Text size={"sm"}>Title: {title}</Text>
+      <Text size={"sm"}>Title: {title.slice(0,10)}</Text>
 
         <Text size={"sm"}>price: {price}</Text>
         <Text size={"sm"}>Quantity: {qty}</Text>

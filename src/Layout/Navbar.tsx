@@ -31,11 +31,11 @@ import { useSelector } from 'react-redux'
 import { RootState, useAppDispatch } from '../app/store'
 import DrawerExample from '../Components/Drawer'
 import { onOpenCartDrawer } from '../app/Slices/features/glopalSlice'
-const Links = ['Products', 'Team']
+const user = CookiesServices.get("user")
 
+const { confirmed}= user.user
 
-
-
+const Links = ['Products']
 interface Props {
   children: React.ReactNode
   to: string;
@@ -77,7 +77,7 @@ const openDrawer =()=>{
   return (
 
     <>
-      <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
+      <Box bg={useColorModeValue('gray.100', 'gray.900')} top={0} zIndex={10} w="100%" px={4} position={'fixed'} >
         <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
         <IconButton
             size={'md'}
@@ -88,6 +88,7 @@ const openDrawer =()=>{
           />
         <HStack spacing={8} alignItems={'center'}>
         <RouterLink to="/">My App</RouterLink>
+        {  !confirmed   &&   <RouterLink to="/dashboard">Dashboard</RouterLink>}
 
             <HStack as={'nav'} spacing={4} display={{ base: 'none', md: 'flex' }}>
               {Links.map((link) => (
@@ -137,8 +138,8 @@ const openDrawer =()=>{
                 </MenuList>
               </Menu> :   
               <Flex>
-                <Button mr={2}  as={RouterLink} to="/login">Login</Button>
-              <Button  as={RouterLink} to="/register">Register</Button>
+                <Button mr={2}  as={RouterLink} to="/login">Sign in</Button>
+              <Button  as={RouterLink} to="/register">Sign up</Button>
               </Flex>
               }
             </Stack>
@@ -157,8 +158,6 @@ const openDrawer =()=>{
 
   </Box>
 ) : null}
-
-
       </Box>
     </>
   )

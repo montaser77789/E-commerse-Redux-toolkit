@@ -13,7 +13,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
-  Link,
+
 } from "@chakra-ui/react";
 import { useState } from "react";
 // import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
@@ -23,6 +23,7 @@ import { IuserRegister } from "../interfaces";
 import { userRegister } from "../app/Register";
 import { RootState, useAppDispatch } from "../app/store";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +55,7 @@ export default function Register() {
       align={"center"}
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
+      mt={5}
     >
       <Stack  spacing={8} mx={"auto"} width={"100%"} maxW={"md"} py={12} px={6}>
         <Stack align={"center"}>
@@ -137,7 +139,7 @@ export default function Register() {
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link color={"blue.400"}>Login</Link>
+                Already a user? <Link to={"/login"} style={{color:"#7b7bff"}}  >Sign in</Link>
               </Text>
             </Stack>
           </Stack>

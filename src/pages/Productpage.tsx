@@ -10,6 +10,7 @@ function Products() {
     url: "/products?populate=thumbnail,catagory,createdAt",
   });
 
+
   if (isLoading) {
     return (
       <Grid margin={30} templateColumns={"repeat(auto-fill, minmax(300px, 1fr))"} gap={6}>

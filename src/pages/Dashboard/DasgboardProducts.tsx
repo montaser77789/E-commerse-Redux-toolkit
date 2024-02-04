@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Flex,
   FormControl,
@@ -15,7 +16,9 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Textarea,
+  Tfoot,
   Th,
   Thead,
   Tr,
@@ -32,10 +35,11 @@ import TableSkeleton from "../../Components/TableSkeleton";
 import { AiOutlineEye } from "react-icons/ai";
 import { BsTrash } from "react-icons/bs";
 import { CiEdit } from "react-icons/ci";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AlertDialog from "../../Components/AlertDialog";
 import { useEffect, useState } from "react";
 import CustomModel from "../../Components/CustomModel";
+import { FaArrowLeft } from "react-icons/fa";
 interface Ithumbnail {
   url: string;
 }
@@ -43,6 +47,8 @@ function DashboardProducts() {
   const [clickedProducId, setclickedProducId] = useState<number>(0);
   const [thumbnail, setThumbnail] = useState<File | undefined>();
   const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
+  const navigate = useNavigate()
+  const toNavigate = ()=>navigate("/")
 
   const [clickedProducToEdit, setclickedProducToEdit] = useState<Iattributes>({
     id: 1,
@@ -218,8 +224,16 @@ function DashboardProducts() {
     }
   }, [isSuccess, onClose, onCloseModel, isSuccessupdate,onCloseModelCreate,isSuccessCreate]);
   if (isLoading) return <TableSkeleton />;
+
+
   return (
     <>
+      <Box onClick={toNavigate}   cursor={'pointer'} display="flex" alignItems="center">
+  <FaArrowLeft size={20} style={{ marginRight: '8px' }} />
+  <Text fontSize="lg" fontWeight="bold">
+    Back
+  </Text>
+</Box>
       <Flex flexDirection={"column"}>
         <Button
           ml={"auto"}
@@ -232,11 +246,13 @@ function DashboardProducts() {
         >
           CreateProduct
         </Button>
-        <TableContainer>
-          <Table variant="striped" colorScheme="purple">
-            <TableCaption>Imperial to metric conversion factors</TableCaption>
-            <Thead>
-              <Tr>
+
+
+        <TableContainer  >
+  <Table variant='simple'>
+    <TableCaption>Dashboard Products {data?.data.length ?? 0}</TableCaption>
+    <Thead>
+    <Tr>
                 <Th>id</Th>
                 <Th>title</Th>
                 <Th>Catagory</Th>
@@ -246,15 +262,15 @@ function DashboardProducts() {
                 <Th>Stock</Th>
                 <Th>Action</Th>
               </Tr>
-            </Thead>
-            <Tbody>
+    </Thead>
+    <Tbody>
               { data?.data?.map((product: Iproduct) => (
               
                 <Tr>
                   <Td>{product.id}</Td>
-                  <Td>{product.attributes.title}</Td>
-                  <Td>{product.attributes.catagory.data?.attributes.title}</Td>
-                  <Td>{product.attributes.description.slice(0, 20)}</Td>
+                  <Td>{product.attributes.title.slice(0,10)}...</Td>
+                  <Td>{product.attributes.catagory.data?.attributes.title.slice(0, 10)}...</Td>
+                  <Td>{product.attributes.description.slice(0, 10)}...</Td>
                   <Td>
                     {" "}
                     <Image
@@ -272,12 +288,11 @@ function DashboardProducts() {
                   <Td>{product.attributes.stock}</Td>
                   <Td>
                     <Button
-                      as={Link}
-                      to={`/products${product.id}`}
                       mr={2}
                       colorScheme="purple"
                       variant={"solid"}
-                      onClick={() => {}}
+                      as={Link}
+                      to={`/product/${product.id}`}
                     >
                       <AiOutlineEye size={17} />
                     </Button>
@@ -307,8 +322,24 @@ function DashboardProducts() {
                 </Tr>
               ))}
             </Tbody>
-          </Table>
-        </TableContainer>
+    <Tfoot>
+    <Tr>
+                <Th>id</Th>
+                <Th>title</Th>
+                <Th>Catagory</Th>
+                <Th>descriptin</Th>
+                <Th>thumbnail</Th>
+                <Th>Price</Th>
+                <Th>Stock</Th>
+                <Th>Action</Th>
+              </Tr>
+    </Tfoot>
+  </Table>
+</TableContainer>
+
+
+
+       
       </Flex>
 
       <AlertDialog

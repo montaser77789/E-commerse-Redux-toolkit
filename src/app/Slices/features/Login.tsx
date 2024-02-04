@@ -62,6 +62,8 @@ const loginSlice = createSlice({
         date.setTime(date.getTime() + EXPIRE_IN_DAYS);
         const options:Ioptions ={path:"/",expires:date}
         CookiesServices.set("jwt",action.payload.jwt,options)
+        CookiesServices.set("user",action.payload,options)
+        
         toast({
           title:"Logged in successfully" ,
           status: 'success',

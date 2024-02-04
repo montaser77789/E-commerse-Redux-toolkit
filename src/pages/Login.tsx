@@ -22,6 +22,7 @@ import { BiSolidShow } from "react-icons/bi";
 import { useDispatch, useSelector } from 'react-redux';
 import { Iuser, userLogin } from '../app/Slices/features/Login';
 import { AppDispatch, RootState } from '../app/store';
+import { Link } from 'react-router-dom';
 
 
 export default function Login() {
@@ -70,7 +71,8 @@ export default function Login() {
       minH={'100vh'}
       align={'center'}
       justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
+      bg={useColorModeValue('gray.50', 'gray.800')}
+      mt={5}>
       <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
         <Stack align={'center'}>
           <Heading fontSize={'4xl'}>Sign in to your account</Heading>
@@ -137,6 +139,11 @@ export default function Login() {
                 isLoading={loading}>
                 Sign in
               </Button>
+            </Stack>
+            <Stack pt={6}>
+              <Text align={"center"}>
+                Already a user? <Link to={"/register"} style={{color:"#7b7bff"}}>  Sign up</Link>
+              </Text>
             </Stack>
           </Stack>
         </Box>

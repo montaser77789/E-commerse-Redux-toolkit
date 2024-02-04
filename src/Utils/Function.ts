@@ -10,7 +10,7 @@ const  exists = cartProducts.find(item => product.id ==  item.id )
         title:"Added to your car." ,
         description:"This item is already exist, the quantity will be increased",
         status: 'success',
-        duration: 9000,
+        duration: 2000,
         isClosable: true,
       })
 
@@ -19,7 +19,7 @@ const  exists = cartProducts.find(item => product.id ==  item.id )
 toast({
     title:"Added to your car." ,
     status: 'success',
-    duration: 9000,
+    duration: 2000,
     isClosable: true,
   })
 

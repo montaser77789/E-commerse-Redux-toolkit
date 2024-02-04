@@ -1,37 +1,29 @@
+import { Link } from "react-router-dom";
+import { Box, Image, Badge, Text, Button, Flex } from "@chakra-ui/react";
+import { useAppDispatch } from "../app/store";
 
-import { Link } from 'react-router-dom';
-import {
-  Box,
-  Image,
-  Badge,
-  Text,
-  Button,
-  Flex,
-} from "@chakra-ui/react";
-import {useAppDispatch } from "../app/store";
-
-import React from 'react';
-import {  Iproduct } from '../interfaces';
+import React from "react";
+import { Iproduct } from "../interfaces";
 import { addToCart } from "../app/Slices/features/CartSlice";
-import { motion } from 'framer-motion';
-
+import { motion } from "framer-motion";
+import { AiOutlineEye } from "react-icons/ai";
 
 interface ProductCardProps {
-  product:Iproduct
+  product: Iproduct;
 }
 
-
 const Productcart: React.FC<ProductCardProps> = ({ product }) => {
-  const { title, description, price,id } = product.attributes;
-  
-  const dispatch = useAppDispatch()
- 
-  const addCart =()=>{
-    dispatch(addToCart(product))
-  }
+  const { title, description, price } = product.attributes;
+
+  const dispatch = useAppDispatch();
+
+  const addCart = () => {
+    dispatch(addToCart(product));
+  };
   return (
     <Box
-      maxW="sm"
+      maxW="md"
+      w={"sm"}
       borderWidth="1px"
       borderRadius="md"
       overflow="hidden"
@@ -39,25 +31,31 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
       position="relative"
       transition="transform 0.2s ease-in-out"
       _hover={{ transform: "scale(1.05)" }}
+      mt={20}
     >
       <Image
+        p={2}
         src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
         alt={title}
-        objectFit="cover"
-        height="200px"
-        
+        height="300px"
+        w={"100%"}
       />
+
       <Box p="4">
         <Badge borderRadius="full" px="2" colorScheme="teal">
           New
         </Badge>
-
-        <Box mt="2" fontWeight="semibold" as="h4" lineHeight="tight" isTruncated>
-          {title}
+        <Box
+          mt="2"
+          fontWeight="semibold"
+          as="h4"
+          lineHeight="tight"
+          isTruncated
+        >
+          {title.slice(0, 30)}...
         </Box>
-
         <Text color="gray.600" fontSize="sm" mt="1">
-          {description}
+          {description.slice(0, 50)}...
         </Text>
         <Text color="blue.700" fontSize="lg" fontWeight="bold" mt="2">
           {price}
@@ -79,31 +77,24 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
             justifyContent: "center",
             borderRadius: "md",
           }}
-        >
-          <Button
-            as={Link}
-            to={`/products/${id}`}
-            colorScheme="cyan"
-            size="md"
-          >
-            View Details
-          </Button>
-        </motion.div>
-        <Flex justify="center" mt="4">
-          <Button
-            colorScheme="cyan"
-            size="md"
-            onClick={() =>addCart()}
-          >
+        ></motion.div>
+        <Flex justifyContent={"space-between"} mt="4">
+          <Button colorScheme="cyan" size="md" onClick={() => addCart()}>
             Add to Cart
           </Button>
+          <Button
+            mr={2}
+            colorScheme="purple"
+            variant={"solid"}
+            as={Link}
+            to={`/product/${product.id}`}
+          >
+            <AiOutlineEye size={17} />
+          </Button>
         </Flex>
-
-      
       </Box>
     </Box>
   );
 };
 
 export default Productcart;
-

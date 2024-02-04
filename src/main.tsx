@@ -9,9 +9,12 @@ import {
 const queryClient = new QueryClient()
 import { Provider } from 'react-redux'
 import store from './app/store.ts'
+import ProviderConnectionInternet from './Provider/ProviderConnectionInternet.tsx'
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
+  <ProviderConnectionInternet>
+
   <Provider store={store}>
   <QueryClientProvider client={queryClient}>
   <ChakraProvider>
@@ -19,4 +22,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </ChakraProvider>
   </QueryClientProvider>
   </Provider>
+  </ProviderConnectionInternet>
 )

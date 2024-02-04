@@ -9,7 +9,6 @@ interface Ipropse {
 const initialState: Ipropse = {
     cartProducts:[]
 }
-
 export const cartSlice = createSlice({
   name: 'cart',
   initialState,

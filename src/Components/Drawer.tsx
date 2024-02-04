@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Input, Text } from "@chakra-ui/react";
+import { Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, Text } from "@chakra-ui/react";
 import { useSelector } from 'react-redux';
 import { RootState, useAppDispatch } from '../app/store';
 import { onCloseDrawer } from '../app/Slices/features/glopalSlice';
@@ -31,7 +31,6 @@ function DrawerExample() {
           <DrawerCloseButton />
           <DrawerHeader>your shooping cart </DrawerHeader>
           <DrawerBody>
-            <Input placeholder='Type here...' />
             {cartProducts.length? cartProducts.map((product:Iproduct)=>(
                           <CardInDrawer key={product.id} {...product} />
             )):<Text p={"10px 0"} fontSize={"2xl"}>Your cart is empty</Text>}
