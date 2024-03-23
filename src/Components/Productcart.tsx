@@ -37,6 +37,8 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
   };
   return (
     <Box
+    paddingTop={50}
+
     maxW={{ base: "md", md: "lg", lg: "2xl" }}
       w={"100%"}
       borderWidth="1px"

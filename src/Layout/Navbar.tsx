@@ -32,7 +32,6 @@ import { onOpenCartDrawer } from "../app/Slices/features/glopalSlice";
 const userCookie = CookiesServices.get("user");
 const user = userCookie ? userCookie.user : false;
 const confirmed = user ? user.confirmed : false;
-console.log("confirmed:", confirmed);
 
 const Links = ["Products"];
 
@@ -66,7 +65,6 @@ export default function Navbar() {
   const onLogout = () => {
     CookiesServices.remove("jwt");
     CookiesServices.remove("user");
-
     window.location.reload();
   };
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -77,84 +75,71 @@ export default function Navbar() {
   };
 
   return (
-    <>
-      <Box
-        bg={useColorModeValue("gray.100", "gray.900")}
-        top={0}
-        zIndex={10}
-        w="100%"
-        px={4}
-        position={"fixed"}
+    <Box
+      bg={useColorModeValue("gray.100", "gray.900")}
+      top={0}
+      zIndex={10}
+      w="100%"
+      px={4}
+      position={"fixed"}
+    >
+      <Flex
+        h={16}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        flexDir={["column", "row"]}
       >
-        <Flex
-          h={16}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-          flexDir={["column", "row"]}
-        >
-          <IconButton
-            size="md"
-            icon={isOpen ? <IoCloseSharp size={"30px"} style={{ margin: "auto"}}/> : <GiHamburgerMenu size={"30px"} style={{ margin: "auto" }}/>}
-            aria-label="Open Menu"
-            display={{ base: "block", md: "none" }}
-            onClick={isOpen ? onClose : onOpen}
-          />
-
-          <HStack spacing={8} alignItems={"center"} mt={[4, 0]}>
-            <RouterLink to="/">My App</RouterLink>
-            {!confirmed && user && <RouterLink to="/dashboard">Dashboard</RouterLink>}
-
-            <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
-              {Links.map((link) => (
-                <NavLink key={link} to={`/${link.toLowerCase()}`}>
-                  {link}
-                </NavLink>
-              ))}
-            </HStack>
+        <HStack spacing={8} alignItems={"center"} mt={[4, 0]}>
+          <RouterLink to="/">My App</RouterLink>
+          {!confirmed && user && <RouterLink to="/dashboard">Dashboard</RouterLink>}
+          <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
+            {Links.map((link) => (
+              <NavLink key={link} to={`/${link.toLowerCase()}`}>
+                {link}
+              </NavLink>
+            ))}
           </HStack>
-          <Flex alignItems={"center"}>
-            <Stack direction={"row"} spacing={7}>
-              {token ? <Button onClick={openDrawer}>cart({cartProducts.length})</Button> : null}
-              <Button onClick={toggleColorMode}>
-                {colorMode === "light" ? <FaRegMoon /> : <IoSunnyOutline />}
-              </Button>
-              {token ? (
-                <Menu>
-                  <MenuButton
-                    as={Button}
-                    rounded={"full"}
-                    variant={"link"}
-                    cursor={"pointer"}
-                    minW={0}
-                  >
+        </HStack>
+        <Flex alignItems={"center"}>
+          <Stack direction={"row"} spacing={7}>
+            {token ? <Button onClick={openDrawer}>cart({cartProducts.length})</Button> : null}
+            <Button onClick={toggleColorMode}>
+              {colorMode === "light" ? <FaRegMoon /> : <IoSunnyOutline />}
+            </Button>
+            {token ? (
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                  minW={0}
+                >
+                  <Avatar
+                    size={"sm"}
+                    src={"https://avatars.dicebear.com/api/male/username.svg"}
+                  />
+                </MenuButton>
+                <MenuList alignItems={"center"}>
+                  <Center>
                     <Avatar
-                      size={"sm"}
-                      src={"https://avatars.dicebear.com/api/male/username.svg"}
+                      size={"2xl"}
+                      src={
+                        "https://avatars.dicebear.com/api/male/username.svg"
+                      }
                     />
-                  </MenuButton>
-                  <MenuList alignItems={"center"}>
-                    <br />
-                    <Center>
-                      <Avatar
-                        size={"2xl"}
-                        src={
-                          "https://avatars.dicebear.com/api/male/username.svg"
-                        }
-                      />
-                    </Center>
-                    <br />
-                    <Center>
-                      <p>Username</p>
-                    </Center>
-                    <br />
-                    <MenuDivider />
-                    <MenuItem>Your Servers</MenuItem>
-                    <MenuItem>Account Settings</MenuItem>
-                    <MenuItem onClick={onLogout}>Logout</MenuItem>
-                  </MenuList>
-                </Menu>
-              ) : (
-                <Flex>
+                  </Center>
+                  <Center>
+                    <p>Username</p>
+                  </Center>
+                  <MenuDivider />
+                  <MenuItem>Your Servers</MenuItem>
+                  <MenuItem>Account Settings</MenuItem>
+                  <MenuItem onClick={onLogout}>Logout</MenuItem>
+                </MenuList>
+              </Menu>
+            ) : (
+              <Flex>
                 <Button mr={2} as={RouterLink} to="/login">
                   Sign in
                 </Button>
@@ -167,6 +152,13 @@ export default function Navbar() {
           <DrawerExample />
         </Flex>
       </Flex>
+      <IconButton
+        size="md"
+        icon={isOpen ? <IoCloseSharp size={"30px"} style={{ margin: "auto"}}/> : <GiHamburgerMenu size={"30px"} style={{ margin: "auto" }}/>}
+        aria-label="Open Menu"
+        display={{ base: "block", md: "none" }}
+        onClick={isOpen ? onClose : onOpen}
+      />
       {isOpen ? (
         <Box pb={4} display={{ md: "none" }}>
           <Stack as={"nav"} spacing={4}>
@@ -179,6 +171,5 @@ export default function Navbar() {
         </Box>
       ) : null}
     </Box>
-  </>
-);
+  );
 }

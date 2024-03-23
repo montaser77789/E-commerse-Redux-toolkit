@@ -51,6 +51,8 @@ export default function Register() {
 
   return (
     <Flex
+    paddingTop={50}
+
       minH={"100vh"}
       align={"center"}
       justify={"center"}

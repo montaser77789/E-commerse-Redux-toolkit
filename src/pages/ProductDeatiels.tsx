@@ -17,6 +17,8 @@ function ProductDetails() {
   return (
     <>
       <Box
+            paddingTop={50}
+
         onClick={toNavigate}
         w="100%"
         pt={8}

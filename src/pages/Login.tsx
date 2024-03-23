@@ -1,4 +1,3 @@
-
 import {
   Flex,
   Box,
@@ -14,137 +13,161 @@ import {
   InputGroup,
   InputRightElement,
   FormHelperText,
-  
-} from '@chakra-ui/react'
-import React, {  useState } from 'react'
+} from "@chakra-ui/react";
+import React, { useState } from "react";
 import { BiSolidHide } from "react-icons/bi";
 import { BiSolidShow } from "react-icons/bi";
-import { useDispatch, useSelector } from 'react-redux';
-import { Iuser, userLogin } from '../app/Slices/features/Login';
-import { AppDispatch, RootState } from '../app/store';
-import { Link } from 'react-router-dom';
-
+import { useDispatch, useSelector } from "react-redux";
+import { Iuser, userLogin } from "../app/Slices/features/Login";
+import { AppDispatch, RootState } from "../app/store";
+import { Link } from "react-router-dom";
 
 export default function Login() {
   const [isEmail, setisEmail] = useState(false);
   const [isPassword, setisPassword] = useState(false);
   const dispatch: AppDispatch = useDispatch();
-  const {loading} = useSelector((state:RootState)=>state.login)
+  const { loading } = useSelector((state: RootState) => state.login);
 
-    const [showPassword, setShowPassword] = useState(false);
-    const [user,setUser]=useState<Iuser>({
-        identifier:"",
-        password:""
-    })
-    const onChangeHandler = (e:React.ChangeEvent<HTMLInputElement>)=>{
-        const {value,name} = e.target;
-        setUser({...user,[name]:value})
+  const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState<Iuser>({
+    identifier: "",
+    password: "",
+  });
+  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = e.target;
+    setUser({ ...user, [name]: value });
+  };
+
+  const onSubmitHandler = (e: React.FormEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    console.log("Done");
+    if (!user.identifier && !user.password) {
+      setisEmail(true);
+      setisPassword(true);
+      return;
     }
 
-    const onSubmitHandler = (e: React.FormEvent<HTMLDivElement>) => {
-      e.preventDefault();
-      console.log("Done");
-      if(!user.identifier && !user.password ){
-        setisEmail(true)
-        setisPassword(true)
-        return;
-      } 
-      
-      if(!user.identifier  ){
-        setisEmail(true)
-        return;
-      }
-      if(!user.password  ){
-        setisPassword(true)
-        return;
-      }
-      setisEmail(false)
-      setisPassword(false)
-      dispatch(userLogin(user))
-    };
-    
+    if (!user.identifier) {
+      setisEmail(true);
+      return;
+    }
+    if (!user.password) {
+      setisPassword(true);
+      return;
+    }
+    setisEmail(false);
+    setisPassword(false);
+    dispatch(userLogin(user));
+  };
+
   return (
     <Flex
-      minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      bg={useColorModeValue('gray.50', 'gray.800')}
-      mt={5}>
-      <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-        <Stack align={'center'}>
-          <Heading fontSize={'4xl'}>Sign in to your account</Heading>
-          <Text display={"flex"} fontSize={'lg'} color={'gray.600'}>
-            to enjoy all of our cool  <Text color={'blue.400'}  ml={2}> features</Text> ✌️
+      paddingTop={50}
+      minH={"100vh"}
+      align={"center"}
+      justify={"center"}
+      bg={useColorModeValue("gray.50", "gray.800")}
+      mt={5}
+    >
+      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+        <Stack align={"center"}>
+          <Heading fontSize={"4xl"}>Sign in to your account</Heading>
+          <Text display={"flex"} fontSize={"lg"} color={"gray.600"}>
+            to enjoy all of our cool{" "}
+            <Text color={"blue.400"} ml={2}>
+              {" "}
+              features
+            </Text>{" "}
+            ✌️
           </Text>
         </Stack>
         <Box
-          as='form'
+          as="form"
           onSubmit={onSubmitHandler}
-          rounded={'lg'}
-          bg={useColorModeValue('white', 'gray.700')}
-          boxShadow={'lg'}
+          rounded={"lg"}
+          bg={useColorModeValue("white", "gray.700")}
+          boxShadow={"lg"}
           p={8}
         >
           <Stack spacing={4}>
             <FormControl id="email">
               <FormLabel>Email address</FormLabel>
-              <Input type="email"
-              name='identifier'
-              onChange={onChangeHandler}
-              value={user.identifier}
-              isInvalid={isEmail}
-              errorBorderColor='crimson'
-               />
-                  
-          {isEmail?  (<FormHelperText color={"red"}>Email is required. </FormHelperText>):null}
+              <Input
+                type="email"
+                name="identifier"
+                onChange={onChangeHandler}
+                value={user.identifier}
+                isInvalid={isEmail}
+                errorBorderColor="crimson"
+              />
+
+              {isEmail ? (
+                <FormHelperText color={"red"}>
+                  Email is required.{" "}
+                </FormHelperText>
+              ) : null}
             </FormControl>
             <FormControl id="password">
               <FormLabel>Password</FormLabel>
               <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'}
-                name='password'
-                value={user.password}
-                onChange={onChangeHandler}
-                isInvalid={isPassword}
-                errorBorderColor='crimson'
-                              />
-                <InputRightElement h={'full'}>
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  value={user.password}
+                  onChange={onChangeHandler}
+                  isInvalid={isPassword}
+                  errorBorderColor="crimson"
+                />
+                <InputRightElement h={"full"}>
                   <Button
-                    variant={'ghost'}
-                    onClick={() => setShowPassword((showPassword) => !showPassword)}>
-                    {showPassword ? <BiSolidHide  /> : <BiSolidShow />}
+                    variant={"ghost"}
+                    onClick={() =>
+                      setShowPassword((showPassword) => !showPassword)
+                    }
+                  >
+                    {showPassword ? <BiSolidHide /> : <BiSolidShow />}
                   </Button>
                 </InputRightElement>
               </InputGroup>
-              {isEmail?  (<FormHelperText color={"red"}>Password is required. </FormHelperText>):null}
+              {isEmail ? (
+                <FormHelperText color={"red"}>
+                  Password is required.{" "}
+                </FormHelperText>
+              ) : null}
             </FormControl>
             <Stack spacing={10}>
               <Stack
-                direction={{ base: 'column', sm: 'row' }}
-                align={'start'}
-                justify={'space-between'}>
+                direction={{ base: "column", sm: "row" }}
+                align={"start"}
+                justify={"space-between"}
+              >
                 <Checkbox>Remember me</Checkbox>
-                <Text color={'blue.400'}>Forgot password?</Text>
+                <Text color={"blue.400"}>Forgot password?</Text>
               </Stack>
               <Button
-              bg ={ isEmail || isPassword ? 'red.400'  :  'blue.400'}
-                color={'white'}
+                bg={isEmail || isPassword ? "red.400" : "blue.400"}
+                color={"white"}
                 _hover={{
-                  bg : isEmail || isPassword ? 'red.500'  :  'blue.500'
+                  bg: isEmail || isPassword ? "red.500" : "blue.500",
                 }}
-                type='submit'
-                isLoading={loading}>
+                type="submit"
+                isLoading={loading}
+              >
                 Sign in
               </Button>
             </Stack>
             <Stack pt={6}>
               <Text align={"center"}>
-                Already a user? <Link to={"/register"} style={{color:"#7b7bff"}}>  Sign up</Link>
+                Already a user?{" "}
+                <Link to={"/register"} style={{ color: "#7b7bff" }}>
+                  {" "}
+                  Sign up
+                </Link>
               </Text>
             </Stack>
           </Stack>
         </Box>
       </Stack>
     </Flex>
-  )
+  );
 }

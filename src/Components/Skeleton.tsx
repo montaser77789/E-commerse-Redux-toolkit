@@ -2,7 +2,8 @@ import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
 
 const Skeleton = () => {
   return (
-    <Box padding="6" boxShadow="lg" bg="white" marginTop={70}>
+    <Box       paddingTop={50}
+    padding="6" boxShadow="lg" bg="white" marginTop={70}>
       <SkeletonCircle
         size="10"
         borderRadius="50%"
