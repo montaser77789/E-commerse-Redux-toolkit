@@ -1,7 +1,7 @@
 import { Image, Text, Flex, Box } from "@chakra-ui/react";
-import UseAuthenticatedQuery from "../Hooks/UseAuthenticatedQuery";
 import { useNavigate, useParams } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import UseAuthenticatedQuery from "../Hooks/UseAuthenticatedQuery";
 
 function ProductDetails() {
   const params = useParams();
@@ -13,17 +13,15 @@ function ProductDetails() {
   });
 
   const toNavigate = () => navigate(-1);
+  if (!data) {
+    return <Text>No data available</Text>;
+  }
 
   return (
     <>
       <Box
-            paddingTop={50}
-
+        marginTop={"100px"}
         onClick={toNavigate}
-        w="100%"
-        pt={8}
-        pb={4}
-        px={4}
         cursor={"pointer"}
         display="flex"
         alignItems="center"
@@ -34,34 +32,21 @@ function ProductDetails() {
         </Text>
       </Box>
 
-      <Flex
-        direction="column"
-        align="center"
-        justify="center"
-        px={4}
-        pt={4}
-        pb={8}
-      >
+      <Flex direction={["column", "column", "row"]} p={4}>
         <Image
-          w="100%"
-          h="auto"
           src={data?.data.attributes.thumbnail.data?.attributes.url}
           alt={data?.data.attributes.title}
           borderRadius="md"
-          objectFit="cover"
+          maxW={["100%", "100%", "40%"]}
+          mr={[0, 0, 4]}
+          mb={[4, 4, 0]}
         />
 
-        <Flex
-          direction="column"
-          align="center"
-          justify="center"
-          w="100%"
-          mt={4}
-        >
+        <Box flex="1">
           <Text fontWeight="bold" fontSize="xl" mb={2}>
             {data?.data.attributes.title}
           </Text>
-          <Text fontSize="lg" textAlign="center" mb={4}>
+          <Text fontSize="lg" mb={4}>
             {data?.data.attributes.description}
           </Text>
 
@@ -74,7 +59,7 @@ function ProductDetails() {
           <Text fontWeight="bold" fontSize="lg" mb={2}>
             Category: {data?.data.attributes.catagory.data?.attributes.title}
           </Text>
-        </Flex>
+        </Box>
       </Flex>
     </>
   );
