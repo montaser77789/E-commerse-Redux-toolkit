@@ -2,11 +2,15 @@ import { Link } from "react-router-dom";
 import { Box, Image, Badge, Text, Button, Flex } from "@chakra-ui/react";
 import { useAppDispatch } from "../app/store";
 
-import React from "react";
 import { Iproduct } from "../interfaces";
 import { addToCart } from "../app/Slices/features/CartSlice";
 import { motion } from "framer-motion";
 import { AiOutlineEye } from "react-icons/ai";
+import CookiesServices from "../Services/CookiesServices";
+import {  useToast } from "@chakra-ui/react";
+
+const userCookie = CookiesServices.get("user");
+const user = userCookie ? userCookie.user : false;
 
 interface ProductCardProps {
   product: Iproduct;
@@ -16,14 +20,25 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
   const { title, description, price } = product.attributes;
 
   const dispatch = useAppDispatch();
-
+  const toast = useToast();
   const addCart = () => {
+    if (!user) {
+      toast({
+        title: "Place Login!",
+
+        status: "info",
+        duration: 2000,
+        isClosable: true,
+      });
+      return;
+    }
+
     dispatch(addToCart(product));
   };
   return (
     <Box
-      maxW="md"
-      w={"sm"}
+    maxW={{ base: "md", md: "lg", lg: "2xl" }}
+      w={"100%"}
       borderWidth="1px"
       borderRadius="md"
       overflow="hidden"
@@ -31,11 +46,11 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
       position="relative"
       transition="transform 0.2s ease-in-out"
       _hover={{ transform: "scale(1.05)" }}
-      mt={20}
+      mt={{ base: 4, md: 8 }}
     >
       <Image
         p={2}
-        src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
+        src={product.attributes.thumbnail.data?.attributes.url}
         alt={title}
         height="300px"
         w={"100%"}

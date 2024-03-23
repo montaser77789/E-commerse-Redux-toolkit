@@ -19,7 +19,6 @@ import {
 import { Link, Outlet } from 'react-router-dom'
 import { HiOutlineViewBoards } from "react-icons/hi";
 import { BsGrid3X3Gap } from "react-icons/bs";
-import {  FaHome } from "react-icons/fa";
 interface LinkItemProps {
   name: string
   to:string
@@ -40,7 +39,6 @@ interface SidebarProps extends BoxProps {
   onClose: () => void
 }
 const LinkItems: Array<LinkItemProps> = [
-   {to:"/dashboard", name: 'Home', icon: <FaHome size={22}/>},
    {to:"/dashboard/products", name: 'products', icon: <HiOutlineViewBoards size={22}/> },
    {to:"/dashboard/catagory", name: 'Catagores', icon: <BsGrid3X3Gap size={22}/>}
 ]

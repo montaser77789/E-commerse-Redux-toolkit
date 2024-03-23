@@ -13,8 +13,9 @@ import ProductDeatiels from "../pages/ProductDeatiels";
 
 
 const token = CookiesServices.get("jwt")
-const user = CookiesServices.get("user")
-const { confirmed}= user.user
+const userCookie = CookiesServices.get("user");
+const user = userCookie ? userCookie.user : false;
+const confirmed = user ? user.confirmed : false;
 
 
 

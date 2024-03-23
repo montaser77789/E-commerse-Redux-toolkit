@@ -47,8 +47,8 @@ function DashboardProducts() {
   const [clickedProducId, setclickedProducId] = useState<number>(0);
   const [thumbnail, setThumbnail] = useState<File | undefined>();
   const [thumbnailCreate, setThumbnailCreate] = useState<File | undefined>();
-  const navigate = useNavigate()
-  const toNavigate = ()=>navigate("/")
+  const navigate = useNavigate();
+  const toNavigate = () => navigate("/");
 
   const [clickedProducToEdit, setclickedProducToEdit] = useState<Iattributes>({
     id: 1,
@@ -88,8 +88,10 @@ function DashboardProducts() {
     useDeleteDashboardProductsMutation();
   const [updateproducts, { isLoading: isUpdate, isSuccess: isSuccessupdate }] =
     useUpdateDashboardProductsMutation();
-  const [createproducts, { isLoading: isLoadingCreate,isSuccess: isSuccessCreate }] =
-    useCreateDashboardProductsMutation();
+  const [
+    createproducts,
+    { isLoading: isLoadingCreate, isSuccess: isSuccessCreate },
+  ] = useCreateDashboardProductsMutation();
 
   const onChangeHandler = (
     e:
@@ -160,7 +162,6 @@ function DashboardProducts() {
     }
     createproducts({ body: formData });
     console.log("Create");
-
   };
 
   const onChaneThumbnailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -218,22 +219,33 @@ function DashboardProducts() {
             },
           },
         },
-      })
-      
+      });
+
       onCloseModelCreate();
     }
-  }, [isSuccess, onClose, onCloseModel, isSuccessupdate,onCloseModelCreate,isSuccessCreate]);
+  }, [
+    isSuccess,
+    onClose,
+    onCloseModel,
+    isSuccessupdate,
+    onCloseModelCreate,
+    isSuccessCreate,
+  ]);
   if (isLoading) return <TableSkeleton />;
-
 
   return (
     <>
-      <Box onClick={toNavigate}   cursor={'pointer'} display="flex" alignItems="center">
-  <FaArrowLeft size={20} style={{ marginRight: '8px' }} />
-  <Text fontSize="lg" fontWeight="bold">
-    Back
-  </Text>
-</Box>
+      <Box
+        onClick={toNavigate}
+        cursor={"pointer"}
+        display="flex"
+        alignItems="center"
+      >
+        <FaArrowLeft size={20} style={{ marginRight: "8px" }} />
+        <Text fontSize="lg" fontWeight="bold">
+          Back
+        </Text>
+      </Box>
       <Flex flexDirection={"column"}>
         <Button
           ml={"auto"}
@@ -247,12 +259,13 @@ function DashboardProducts() {
           CreateProduct
         </Button>
 
-
-        <TableContainer  >
-  <Table variant='simple'>
-    <TableCaption>Dashboard Products {data?.data.length ?? 0}</TableCaption>
-    <Thead>
-    <Tr>
+        <TableContainer>
+          <Table variant="simple">
+            <TableCaption>
+              Dashboard Products {data?.data.length ?? 0}
+            </TableCaption>
+            <Thead>
+              <Tr>
                 <Th>id</Th>
                 <Th>title</Th>
                 <Th>Catagory</Th>
@@ -262,19 +275,24 @@ function DashboardProducts() {
                 <Th>Stock</Th>
                 <Th>Action</Th>
               </Tr>
-    </Thead>
-    <Tbody>
-              { data?.data?.map((product: Iproduct) => (
-              
+            </Thead>
+            <Tbody>
+              {data?.data?.map((product: Iproduct) => (
                 <Tr>
                   <Td>{product.id}</Td>
-                  <Td>{product.attributes.title.slice(0,10)}...</Td>
-                  <Td>{product.attributes.catagory.data?.attributes.title.slice(0, 10)}...</Td>
+                  <Td>{product.attributes.title.slice(0, 10)}...</Td>
+                  <Td>
+                    {product.attributes.catagory.data?.attributes.title.slice(
+                      0,
+                      10
+                    )}
+                    ...
+                  </Td>
                   <Td>{product.attributes.description.slice(0, 10)}...</Td>
                   <Td>
                     {" "}
                     <Image
-                      src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
+                      src={product.attributes.thumbnail.data?.attributes.url}
                       alt={"alt"}
                       objectFit="cover"
                       height="50px"
@@ -322,8 +340,8 @@ function DashboardProducts() {
                 </Tr>
               ))}
             </Tbody>
-    <Tfoot>
-    <Tr>
+            <Tfoot>
+              <Tr>
                 <Th>id</Th>
                 <Th>title</Th>
                 <Th>Catagory</Th>
@@ -333,13 +351,9 @@ function DashboardProducts() {
                 <Th>Stock</Th>
                 <Th>Action</Th>
               </Tr>
-    </Tfoot>
-  </Table>
-</TableContainer>
-
-
-
-       
+            </Tfoot>
+          </Table>
+        </TableContainer>
       </Flex>
 
       <AlertDialog
