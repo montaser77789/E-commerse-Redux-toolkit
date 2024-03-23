@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const axioInstance = axios.create({
-    baseURL: "http://localhost:1337/api",
+    baseURL: "https://strapi-e-commerse.onrender.com/api",
     timeout: 3000,
   });
   export default axioInstance ;
