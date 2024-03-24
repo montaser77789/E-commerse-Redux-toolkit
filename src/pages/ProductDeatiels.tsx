@@ -57,7 +57,8 @@ function ProductDetails() {
             Stock: {data?.data.attributes.stock}
           </Text>
           <Text fontWeight="bold" fontSize="lg" mb={2}>
-            Category: {data?.data.attributes.catagory.data?.attributes.title}
+            Category:{" "}
+            {data?.data?.attributes?.catagory?.data?.attributes?.title}
           </Text>
         </Box>
       </Flex>
