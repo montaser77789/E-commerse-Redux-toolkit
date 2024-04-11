@@ -171,6 +171,7 @@ function DashboardProducts() {
       setThumbnail(files[0]);
     }
   };
+  
   const onChaneThumbnailHandlerCreate = (
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
