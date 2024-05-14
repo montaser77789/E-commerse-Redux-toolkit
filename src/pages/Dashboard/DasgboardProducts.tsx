@@ -145,7 +145,6 @@ function DashboardProducts() {
   };
 
   const onSubmitHandlerCreate = () => {
-    console.log(clickedProducToCreate);
     console.log(thumbnailCreate);
     const formData = new FormData();
     formData.append(
