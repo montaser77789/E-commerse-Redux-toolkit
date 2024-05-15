@@ -8,7 +8,7 @@ export const ProductApiSlice = createApi({
   tagTypes: ["products"],
   refetchOnReconnect: true,
   refetchOnMountOrArgChange: true,
-  baseQuery: fetchBaseQuery({ baseUrl: "https://ecommerce-backend-377z.onrender.com//api" }),
+  baseQuery: fetchBaseQuery({ baseUrl: "https://ecommerce-backend-377z.onrender.com/api" }),
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: () => {
