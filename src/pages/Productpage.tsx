@@ -37,6 +37,7 @@ function Products() {
           display={"flex"}
           justifyContent={"space-evenly"}
           margin={"80px 0px 0px 0px"}
+          gap={6}
         >
           <Skeleton height="20px" width="100px" />
           <Skeleton height="20px" width="100px" />
@@ -58,7 +59,10 @@ function Products() {
         display={"flex"}
         justifyContent={"space-evenly"}
         margin={"80px 0px 0px 0px"}
+        gap={6}
+        flexWrap={"wrap"}
       >
+
         <Button onClick={showAllProducts}>All Products</Button>
         {data?.data.map((product: Iproduct) => (
           <Button
