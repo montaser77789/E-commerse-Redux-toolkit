@@ -25,7 +25,6 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
     if (!user) {
       toast({
         title: "Place Login!",
-
         status: "info",
         duration: 2000,
         isClosable: true,
@@ -37,10 +36,9 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
   };
   return (
     <Box
-      top={"30px"}
+     
       maxW={{ base: "md", md: "lg", lg: "2xl" }}
       w={"100%"}
-      height={"450px"}
       borderWidth="1px"
       borderRadius="md"
       overflow="hidden"
@@ -49,6 +47,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
       transition="transform 0.2s ease-in-out"
       _hover={{ transform: "scale(1.05)" }}
       mt={{ base: 4, md: 8 }}
+     
     >
       <Image
         p={2}
@@ -57,7 +56,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
         height="240px"
         w={"100%"}
       />
-      <Box p="4">
+      <Box p={4} >
         <Badge borderRadius="full" px="2" colorScheme="teal">
           New
         </Badge>
@@ -94,7 +93,7 @@ const Productcart: React.FC<ProductCardProps> = ({ product }) => {
             borderRadius: "md",
           }}
         ></motion.div>
-        <Flex justifyContent={"space-between"} mt="4">
+        <Flex justifyContent={"space-between"} mt="4" >
           <Button colorScheme="cyan" size="md" onClick={() => addCart()}>
             Add to Cart
           </Button>

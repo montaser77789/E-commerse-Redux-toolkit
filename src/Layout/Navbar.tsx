@@ -33,7 +33,7 @@ const userCookie = CookiesServices.get("user");
 const user = userCookie ? userCookie.user : false;
 const confirmed = user ? user.confirmed : false;
 
-const Links = ["Products"];
+const Links = ["Products" ];
 
 interface Props {
   children: React.ReactNode;
@@ -42,6 +42,7 @@ interface Props {
 
 const NavLink = (props: Props) => {
   const { to, children } = props;
+
   return (
     <Box
       as={RouterLink}
@@ -73,6 +74,7 @@ export default function Navbar() {
   const openDrawer = () => {
     dispatch(onOpenCartDrawer());
   };
+  const bgColor = useColorModeValue("gray.100", "gray.900");
 
   return (
     <Box
@@ -81,16 +83,45 @@ export default function Navbar() {
       zIndex={10}
       w="100%"
       px={4}
+      maxHeight={"60px"}
       position={"fixed"}
+      display={{ base: "flex", md: "block" }}    
+        justifyContent={["space-between"]}
+
+      alignItems={"center"}
     >
+ <Box height={"60px"} display={{ base: "block", md: "none" }}>
+    <IconButton
+      margin={"10px"}
+      icon={isOpen ? <IoCloseSharp size={"30px"} style={{ margin: "auto" }} /> : <GiHamburgerMenu size={"30px"} style={{ margin: "auto" }} />}
+      aria-label="Open Menu"
+      display={{ base: "block", md: "none" }}
+      onClick={isOpen ? onClose : onOpen}
+    />
+    {isOpen ? (
+      <Box style={{ marginTop: "10px", padding: "10px" }} borderRadius={"lg"} bg={bgColor}>
+        <Stack as={"nav"} style={{ margin: "auto" }} spacing={4}>
+          {Links.map((link) => (
+            <NavLink key={link} to={`/${link.toLowerCase()}`}>
+              {link}
+            </NavLink>
+          ))}
+        </Stack>
+      </Box>
+    ) : null}
+  </Box>
+
+
+
       <Flex
         h={16}
         alignItems={"center"}
         justifyContent={"space-between"}
-        flexDir={["column", "row"]}
+        flexDir={[ "row"]}
       >
-        <HStack spacing={8} alignItems={"center"} mt={[4, 0]}>
+        <HStack display={ "flex" } margin={"0 10px"}  spacing={8} alignItems={"center"} mt={[4, 0]}>
           <RouterLink to="/">My App</RouterLink>
+          
           {!confirmed && user && <RouterLink to="/dashboard">Dashboard</RouterLink>}
           <HStack as={"nav"} spacing={4} display={{ base: "none", md: "flex" }}>
             {Links.map((link) => (
@@ -100,6 +131,7 @@ export default function Navbar() {
             ))}
           </HStack>
         </HStack>
+
         <Flex alignItems={"center"}>
           <Stack direction={"row"} spacing={7}>
             {token ? <Button onClick={openDrawer}>cart({cartProducts.length})</Button> : null}
@@ -152,24 +184,7 @@ export default function Navbar() {
           <DrawerExample />
         </Flex>
       </Flex>
-      <IconButton
-        size="md"
-        icon={isOpen ? <IoCloseSharp size={"30px"} style={{ margin: "auto"}}/> : <GiHamburgerMenu size={"30px"} style={{ margin: "auto" }}/>}
-        aria-label="Open Menu"
-        display={{ base: "block", md: "none" }}
-        onClick={isOpen ? onClose : onOpen}
-      />
-      {isOpen ? (
-        <Box pb={4} display={{ md: "none" }}>
-          <Stack as={"nav"} spacing={4}>
-            {Links.map((link) => (
-              <NavLink key={link} to={`/${link.toLowerCase()}`}>
-                {link}
-              </NavLink>
-            ))}
-          </Stack>
-        </Box>
-      ) : null}
+     
     </Box>
   );
 }

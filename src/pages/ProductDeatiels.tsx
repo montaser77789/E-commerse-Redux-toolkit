@@ -18,7 +18,7 @@ function ProductDetails() {
   }
 
   return (
-    <>
+    <Box margin={{base:"20px",md:"70px"}}>
       <Box
         marginTop={"100px"}
         onClick={toNavigate}
@@ -62,7 +62,7 @@ function ProductDetails() {
           </Text>
         </Box>
       </Flex>
-    </>
+    </Box>
   );
 }
 

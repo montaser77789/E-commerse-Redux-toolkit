@@ -10,7 +10,7 @@ const Homepage = () => {
         justify="center"
         h="80vh"
       >
-        <Heading as="h1" fontSize="4xl" mb="4">
+        <Heading as="h1" textAlign="center" fontSize="4xl" mb="4">
           Welcome to Our E-Commerce Store
         </Heading>
         <Text fontSize="lg" mb="8" textAlign="center">

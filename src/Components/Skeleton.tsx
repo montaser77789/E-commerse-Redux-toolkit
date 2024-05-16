@@ -1,17 +1,15 @@
-import { Box, SkeletonCircle, SkeletonText } from "@chakra-ui/react";
+import { Box, Skeleton, SkeletonText, Stack } from "@chakra-ui/react";
 
-const Skeleton = () => {
+const SkeletonCard = () => {
   return (
-    <Box       paddingTop={50}
-    padding="6" boxShadow="lg" bg="white" marginTop={70}>
-      <SkeletonCircle
-        size="10"
-        borderRadius="50%"
-        boxSize="200px"
-        margin="auto"
-      />
+    <Box paddingTop={50} padding="6" boxShadow="lg" bg="white" marginTop={70}>
+      
+      <Stack>
+        <Skeleton height="200px" width={"100%"} />
+      </Stack>
+
       <SkeletonText mt="4" noOfLines={4} spacing="4" skeletonHeight="2" />
     </Box>
   );
 };
-export default Skeleton;
+export default SkeletonCard;

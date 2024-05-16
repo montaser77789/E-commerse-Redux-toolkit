@@ -15,7 +15,7 @@ function CardInDrawer(product :Iproduct) {
      <>
      <Flex px={"2"} mb={"2"} alignItems={"center"} >
      <Image
-        src={`http://localhost:1337${product.attributes.thumbnail.data?.attributes.url}`}
+        src={product.attributes.thumbnail.data?.attributes.url}
         alt={"alt"}
         objectFit="cover"
         height="80px"
